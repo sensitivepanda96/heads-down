@@ -1,0 +1,14 @@
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Document
+    body 
+        form(action = "/startGame", method = "GET")
+            div
+                label(for = "P1N") Player 1 Name
+                input(name = "P1N" required placeholder = "Enter name of Player 1")
+            div
+                label(for = "P2N") Player 2 Name
+                input(name = "P2N" required placeholder = "Enter name of Player 2")
+            button(type = "submit") Start Game
