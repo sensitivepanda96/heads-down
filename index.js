@@ -1,26 +1,32 @@
 var express = require('express');
+const bodyParser = require('body-parser');
 var app = express();
 
 const PORT = 8000;
 app.set('view engine', 'pug');
 app.set('views', './view-templates');
+app.use(bodyParser.urlencoded({ extended: true }));
+
+const isBothPlayerNamesSet = () => {
+    return true
+};
 
 
 app.get("/", (req, res) => {
     // redirect to /setPlayerInfo
+    console.log("in path /")
     res.redirect(304,"/setPlayerInfo");
 });
 
 app.get("/setPlayerInfo", (req,res) => {
-    // ensure that both player names are input
-    // call /startGame
     res.render('enterPlayerNames');
 });
 
-app.get("/startGame", (req,res) => {
+app.post("/startGame", (req,res) => {
     // create user objects -> That should have name,id(P1 or P2), currentScore=0, currentTurn=0
     // call /loadGameScreen
-    res.send("The game can start now");
+    // if players names exist, start the game, else re-render set player info
+    res.send(`The game can start now with players ${req.body.P1N} and ${req.body.P1N}`);
 });
 
 app.get("/loadGameScreen", (req,res) => {
