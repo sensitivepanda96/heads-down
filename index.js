@@ -7,15 +7,18 @@ app.set('view engine', 'pug');
 app.set('views', './view-templates');
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const isBothPlayerNamesSet = () => {
-    return true
+const isBothPlayerNamesSet = (req,res,next) => {
+    console.log("middleware player names",req.body.P1N,req.body.P2N);
+    next();
+
 };
 
+app.use('/startGame',isBothPlayerNamesSet)
 
 app.get("/", (req, res) => {
     // redirect to /setPlayerInfo
     console.log("in path /")
-    res.redirect(304,"/setPlayerInfo");
+    res.redirect(302,"/setPlayerInfo");
 });
 
 app.get("/setPlayerInfo", (req,res) => {
@@ -26,7 +29,8 @@ app.post("/startGame", (req,res) => {
     // create user objects -> That should have name,id(P1 or P2), currentScore=0, currentTurn=0
     // call /loadGameScreen
     // if players names exist, start the game, else re-render set player info
-    res.send(`The game can start now with players ${req.body.P1N} and ${req.body.P1N}`);
+    res.render('gameScreen', {P1N:req.body.P1N,P2N:req.body.P2N});
+    // res.send(`The game can start now with players ${req.body.P1N} and ${req.body.P1N}`);
 });
 
 app.get("/loadGameScreen", (req,res) => {
